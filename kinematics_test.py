@@ -31,4 +31,4 @@ def calculate_servo_angles(x, y):
 
     return base_angle-40, 180+10-shoulder_angle, elbow_angle+20
 
-print(calculate_servo_angles(471, 280))
+print(calculate_servo_angles( 466, 54))

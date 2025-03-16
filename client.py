@@ -2,7 +2,7 @@ import socket
 import json
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(("192.168.137.47", 12347)) 
+client.connect(("192.168.137.16", 12345)) 
 
 
 
@@ -14,6 +14,10 @@ def send(key,value):
     if key == "1":
         response = client.recv(1024).decode("utf-8")
         return response
+    if key == "2":
+        response = client.recv(1024).decode("utf-8")
+        return response
+    
     
     else:
         return False
@@ -21,4 +25,4 @@ def send(key,value):
 while True:
     key=input()
     value=input()
-    send(key,value)
+    print(send(key,value))

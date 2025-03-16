@@ -114,7 +114,9 @@
     </div>
     <label>
     <p id="response"></p>
-    <h2>Current Temperature: <span id="temp-value">Loading...</span>°C</h2>
+    <h2>Current Temperature <span id="range-value">Loading...</span>°C</h2>
+
+    <h2>Current Distance from arm <span id="temp-value">Loading...</span>cm</h2>
     <div id="coordinate-section">
         <h2>Move to Coordinates</h2>
         <form id="coordinateForm">
@@ -200,6 +202,18 @@
         });
 
         document.addEventListener("mouseup", stopCommand);
+        function range() {
+                    $.get('/get_range', function(data) {
+                        $('#range-value').text(data.range);
+                    }).fail(function() {
+                        $('#range-value').text('Error fetching data');
+                    });
+                }
+
+         $(document).ready(function() {
+            range();  
+            setInterval(range, 3000);  
+        });
         function fetchTemperature() {
                     $.get('/get_temp', function(data) {
                         $('#temp-value').text(data.cpu_temp);
@@ -210,7 +224,7 @@
 
          $(document).ready(function() {
             fetchTemperature();  
-            setInterval(fetchTemperature, 3000);  
+            setInterval(fetchTemperature, 1500);  
         });
         $(document).ready(function() {
     $("#coordinateForm").submit(function(event) {

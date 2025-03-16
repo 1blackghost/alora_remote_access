@@ -103,10 +103,16 @@ def update_coordinates():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
 
+@app.route("/get_range")
+def get_range():
+    temp=s.send("1","1")
+    return jsonify({"range": temp}) 
+
 @app.route("/get_temp")
 def get_temp():
-    temp=s.send("1","1")
+    temp=s.send("2","2")
     return jsonify({"cpu_temp": temp}) 
+
 @socketio.on('connect')
 def handle_connect():
     print("Client connected")
