@@ -1,0 +1,240 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background: url('bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header */
+.header {
+    width: calc(100% - 40px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* Logo */
+.logo-container {
+    display: flex;
+}
+
+.logo {
+    height: 50px;
+    border-radius: 3000px;
+    border:2px solid white
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger div {
+    width: 30px;
+    height: 4px;
+    background-color: white;
+    margin: 3px 0;
+    border-radius: 2px;
+}
+
+/* Navigation Menu */
+.nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+}
+
+.nav-links a {
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Main Content Layout */
+.content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 80px; /* Adjust for fixed header */
+}
+
+/* Temperature Box */
+.temperature-box {
+    background: rgba(255, 255, 255, 0.1);
+    width: 150px;
+    padding: 15px;
+    height: fit-content;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 20px;
+    top: 150px;
+    margin :auto 0px
+}
+
+#temperature-value {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: green;
+}
+
+/* Video Frame */
+.video-container {
+    width: 80%;
+    max-width: 800px;
+}
+
+#video-frame {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Control Box with Blur Effect */
+.control-box {
+    background: rgba(255, 255, 255, 0.1);
+    width: 350px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Text Entry Box */
+#text-entry {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Control Sections */
+.control-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.section-name {
+    flex: 1;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Buttons */
+.control-btn {
+    padding: 8px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+.control-btn:hover {
+    background-color: #218838;
+}
+
+/* Move Coordinates Box */
+.move-box {
+    background: rgba(255, 255, 255, 0.1);
+    width: 350px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.move-box input {
+    width: 80%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid white;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        width: 100%;
+    }
+
+    .video-container {
+        width: 90%;
+    }
+    .content-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .control-box,
+    .move-box {
+        width: 90%;
+    }
+
+    .temperature-box {
+        left: 10px;
+        top: 100px;
+    }
+}

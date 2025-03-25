@@ -20,13 +20,15 @@ BASE_ANGLE=90
 SHOULDER_ANGLE=90
 ELBOW_ANGLE=90
 FINGERS_ANGLE=90
+WRIST_ANGLE=160
 
 
 
 BASE={"14":BASE_ANGLE}
 SHOULDER={"15":SHOULDER_ANGLE}
 ELBOW={"18":ELBOW_ANGLE}
-FINGERS={"23":FINGERS_ANGLE}
+WRIST={"23":WRIST_ANGLE}
+FINGERS={"24":FINGERS_ANGLE}
 
 
 L1 = 10 
@@ -67,9 +69,9 @@ def calculate_servo_angles(x, y, z):
         return 90, 90, 90, 90  
     
 def mover(pin,angle):
-    if angle>180:
+    if angle>179:
         angle=180
-    if angle<0:
+    if angle<1:
         angle=0
     s.send(pin,str(angle))
 
@@ -86,7 +88,6 @@ def async_calculate_and_move(x, y, z):
     time.sleep(0.3)
     threading.Thread(target=mover, args=("18", cz)).start()
     time.sleep(0.3)
-    threading.Thread(target=mover, args=("23", cw)).start()
 
 @app.route('/update_coordinates', methods=['POST'])
 def update_coordinates():
@@ -105,12 +106,12 @@ def update_coordinates():
 
 @app.route("/get_range")
 def get_range():
-    temp=s.send("1","1")
+    temp=s.send("2","2")
     return jsonify({"range": temp}) 
 
 @app.route("/get_temp")
 def get_temp():
-    temp=s.send("2","2")
+    temp=s.send("1","1")
     return jsonify({"cpu_temp": temp}) 
 
 @socketio.on('connect')
@@ -127,7 +128,7 @@ def handle_client_message(data):
     global BASE_ANGLE,BASE
     global SHOULDER_ANGLE,SHOULDER
     global ELBOW_ANGLE,ELBOW
-    global FINGERS_ANGLE,FINGERS
+    global FINGERS_ANGLE,FINGERS,WRIST,WRIST_ANGLE
     print(f"Received from client: {data}")
     if data["data"]["axis"]=="base":
         pin="14"
@@ -155,8 +156,22 @@ def handle_client_message(data):
             ELBOW_ANGLE+=5
         ELBOW[pin]=ELBOW_ANGLE
         threading.Thread(target=mover,args=(pin,ELBOW_ANGLE)).start()
-    if data["data"]["axis"]=="fingers":
+    if data["data"]["axis"]=="wrist":
         pin="23"
+        if data["data"]["path"]=="left":
+            WRIST_ANGLE-=5
+        if data["data"]["path"]=="right":
+            WRIST_ANGLE+=5
+        if WRIST_ANGLE<79:
+            WRIST_ANGLE=80
+        if WRIST_ANGLE>179:
+            WRIST_ANGLE=180
+        print(WRIST_ANGLE)
+
+        WRIST[pin]=WRIST_ANGLE
+        threading.Thread(target=mover,args=(pin,WRIST_ANGLE)).start()
+    if data["data"]["axis"]=="fingers":
+        pin="24"
         if data["data"]["path"]=="left":
             FINGERS_ANGLE-=5
         if data["data"]["path"]=="right":
@@ -217,6 +232,6 @@ def video_feed():
 if __name__ == '__main__':
     s=bridge.Element
     val=s.start()
-    
+    mover("23",160)
     speak.speak(val)
     socketio.run(app, debug=False, host='0.0.0.0', port=5000)

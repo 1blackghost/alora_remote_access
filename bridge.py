@@ -9,7 +9,7 @@ class Element:
         try:
 
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client.connect(("192.168.137.16", 12345)) 
+            client.connect(("192.168.137.16", 12350)) 
             return "Connection Successful and stabilising..."
         except Exception as e:
             return "Error Refused!"

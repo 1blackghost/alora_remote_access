@@ -1,66 +1,15 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Frame with Button Control</title>
-    <link rel="stylesheet" href="/static/whole.css">
-    <style>
-        .button-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 10px 0;
-        }
-        .control-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            background-color: #000;
-            color: #fff;
-            border-radius: 5px;
-        }
-        .control-button:hover {
-            background-color: #333;
-        }
-        #temperature-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-            margin: auto;
-        }
-        #coordinate-section {
-            background: #e3f2fd;
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-            margin: 20px auto;
-        }
-        input {
-            width: 80px;
-            padding: 5px;
-            margin: 5px;
-            text-align: center;
-        }
-        button {
-            background: #007bff;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-    </style>
+    <title>Motion Control</title>
+    <link rel="stylesheet" href="/static/new.css">
 </head>
 <body>
 
+    <!-- Header Section -->
     <div class="header">
         <div class="hamburger" onclick="toggleMenu()">
             <div></div>
@@ -68,67 +17,86 @@
             <div></div>
         </div>
         <div class="logo-container">
-            <img src="/static/logo-removebg-preview.png" alt="Logo" class="logo">
+            <img src="/static/logo.png" alt="Logo" class="logo">
         </div>
     </div>
 
+    <!-- Navigation Menu -->
     <nav class="nav-links" id="nav-links">
         <a href="#home" class="nav-link">Home</a>
-        <a href="/about" class="nav-link">About</a>
+        <a href="#about" class="nav-link">About</a>
         <a href="#services" class="nav-link">Services</a>
         <a href="#contact" class="nav-link">Contact</a>
-        <a href="/logout" class="nav-link">Logout</a>
+        <a href="#logout" class="nav-link">Logout</a>
     </nav>
 
-    <div class="video-container">
-        <img src="{{ url_for('video_feed') }}" style="width: 100%; max-width: 600px;"/>
+    <div class="content-container">
+        <!-- Temperature Display -->
+        <div class="temperature-box">
+            <div class="section-name">Temperature</div>
+            <div><span id="temp-value">Loading...</span>°C</div>
+
+            <div id="temp-indicator" class="indicator"></div>
+        </div>
+        <div class="video-container">
+            <img src="{{ url_for('video_feed') }}" style="width: 100%; max-width: 600px;"/>
+        </div>
+
+        <div class="temperature-box">
+            <div class="section-name">Distance</div>
+            <div><span id="range-value">Loading...</span> cm</div>
+            
+        </div>
     </div>
 
-    <div id="text-container">
-        <div class="button-container">
-            <button class="control-button" onclick="sendCommand('base', 'left')">Left</button>
+    <!-- Control Box with Blur Effect -->
+    <div class="control-box">
+        <input type="text" id="text-entry" placeholder="Enter Command">
+        
+        <div class="control-section">
+            <div class="section-name">Base</div>
+            <button class="control-btn" onclick="sendCommand('base', 'left')">Left</button>
+            <button class="control-btn"onclick="sendCommand('base', 'right')">Right</button>
+        </div>
 
-            <div>BASE</div>
-            <button class="control-button" onclick="sendCommand('base', 'right')">Right</button>
+        <div class="control-section">
+            <div class="section-name">Shoulder</div>
+            <button class="control-btn" onclick="sendCommand('shoulder', 'left')">Left</button>
+            <button class="control-btn" onclick="sendCommand('shoulder', 'right')">Right</button>
         </div>
-        <div class="button-container">
-            <button class="control-button" onclick="sendCommand('shoulder', 'left')">Left</button>
-            <div>SHOULDER</div>
-            <button class="control-button" onclick="sendCommand('shoulder', 'right')">Right</button>
+
+        <div class="control-section">
+            <div class="section-name">Elbow</div>
+            <button class="control-btn" onclick="sendCommand('elbow', 'left')">Left</button>
+            <button class="control-btn" onclick="sendCommand('elbow', 'right')">Right</button>
         </div>
-        <div class="button-container">
-            <button class="control-button" onclick="sendCommand('elbow', 'left')">Left</button>
-            <div>ELBOW</div>
-            <button class="control-button" onclick="sendCommand('elbow', 'right')">Right</button>
+
+        <div class="control-section">
+            <div class="section-name">Wrist</div>
+            <button class="control-btn" onclick="sendCommand('wrist', 'left')">Left</button>
+            <button class="control-btn" onclick="sendCommand('wrist', 'right')">Right</button>
         </div>
-        <div class="button-container">
-            <button class="control-button" onclick="sendCommand('wrist', 'left')">Left</button>
-            <div>WRIST</div>
-            <button class="control-button" onclick="sendCommand('wrist', 'right')">Right</button>
-        </div>
-        <div class="button-container">
-            <button class="control-button" onclick="sendCommand('fingers', 'left')">Left</button>
-            <div>FINGERS</div>
-            <button class="control-button" onclick="sendCommand('fingers', 'right')">Right</button>
+
+        <div class="control-section">
+            <div class="section-name" >Fingers</div>
+            <button class="control-btn" onclick="sendCommand('fingers', 'left')">close</button>
+            <button class="control-btn" onclick="sendCommand('fingers', 'right')">open</button>
         </div>
     </div>
-    <label>
-    <p id="response"></p>
-    <h2>Current Temperature <span id="range-value">Loading...</span>°C</h2>
+    <p style="color:white" id="response"></p>
 
-    <h2>Current Distance from arm <span id="temp-value">Loading...</span>cm</h2>
-    <div id="coordinate-section">
-        <h2>Move to Coordinates</h2>
+    <!-- Move Coordinates Box -->
+    <div class="move-box">
+        <div class="section-name">Move Coordinates</div>
         <form id="coordinateForm">
-            <label>X: <input type="number" id="x_value" placeholder="X"></label>
-            <label>Y: <input type="number" id="y_value" placeholder="Y"></label>
-            <label>Z: <input type="number" id="z_value" placeholder="Z"></label>
-            <br>
-            <button id="move-btn" type="submit">Move</button>
+
+        <input type="number" id="x_value" placeholder="X Coordinate">
+        <input type="number" id="y_value" placeholder="Y Coordinate">
+        <input type="number" id="z_value" placeholder="Z Coordinate">
+        <button class="control-btn" id="move-btn" type="submit">Move</button>
         </form>
         <p id="move-status"></p>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -162,10 +130,10 @@
             switch (event.key) {
                 case 'ArrowLeft': startCommand('base', 'left'); break;
                 case 'ArrowRight': startCommand('base', 'right'); break;
-                case 'w': startCommand('shoulder', 'left'); break;
-                case 's': startCommand('shoulder', 'right'); break;
-                case 'a': startCommand('elbow', 'left'); break;
-                case 'd': startCommand('elbow', 'right'); break;
+                case 'w': startCommand('shoulder', 'right'); break;
+                case 's': startCommand('shoulder', 'left'); break;
+                case 'a': startCommand('elbow', 'right'); break;
+                case 'd': startCommand('elbow', 'left'); break;
                 case 'q': startCommand('wrist', 'left'); break;
                 case 'e': startCommand('wrist', 'right'); break;
                 case 'z': startCommand('fingers', 'left'); break;
@@ -203,29 +171,51 @@
 
         document.addEventListener("mouseup", stopCommand);
         function range() {
-                    $.get('/get_range', function(data) {
+            $.ajax({
+                url: "/get_range",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    if (data && data.range !== undefined) {
+                        console.log("Range:", data.range);
                         $('#range-value').text(data.range);
-                    }).fail(function() {
-                        $('#range-value').text('Error fetching data');
-                    });
+                    } else {
+                        console.error("Invalid data format:", data);
+                        $('#range-value').text('Invalid data');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    $('#range-value').text('Error fetching data');
                 }
+            });
+        }
 
-         $(document).ready(function() {
-            range();  
-            setInterval(range, 3000);  
-        });
+
+        setInterval(range, 1500);  
         function fetchTemperature() {
-                    $.get('/get_temp', function(data) {
+            $.ajax({
+                url: "/get_temp",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    if (data && data.cpu_temp !== undefined) {
+                        console.log("Range:", data.cpu_temp);
                         $('#temp-value').text(data.cpu_temp);
-                    }).fail(function() {
-                        $('#temp-value').text('Error fetching data');
-                    });
+                    } else {
+                        console.error("Invalid data format:", data);
+                        $('#temp-value').text('Invalid data');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    $('#range-value').text('Error fetching data');
                 }
-
-         $(document).ready(function() {
-            fetchTemperature();  
-            setInterval(fetchTemperature, 1500);  
-        });
+            });
+        }
+ 
+        setInterval(fetchTemperature, 1500);  
+ 
         $(document).ready(function() {
     $("#coordinateForm").submit(function(event) {
         event.preventDefault(); 
@@ -249,6 +239,17 @@
     });
 });
 
+    function toggleMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function updateTemperature(value) {
+            const tempValue = document.getElementById("temperature-value");
+            const tempIndicator = document.getElementById("temp-indicator");
+            tempValue.textContent = value + "°C";
+            tempIndicator.style.backgroundColor = value > 50 ? "red" : "green";
+        }
     </script>
 
 </body>

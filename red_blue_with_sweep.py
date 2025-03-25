@@ -13,6 +13,7 @@ L2 = 10
 detected=False
 s=bridge.Element
 s.start()
+s.send("23","140")
 
 def calculate_servo_angles(x, y, z):
     base_angle = math.degrees(math.atan2(y, x))
@@ -37,6 +38,7 @@ def calculate_servo_angles(x, y, z):
 def mover(x, y, z):
     global s
     global detected
+    y=int(y+20)
     s.send("24","150")
     time.sleep(0.5)
     s.send("14",str(x))
@@ -44,12 +46,11 @@ def mover(x, y, z):
     s.send("15",str(y))
     time.sleep(0.3)
     s.send("18",str(z))
-    time.sleep(2)
-    s.send("24","90")
+    time.sleep(5)
+    s.send("24",str("90"))
+
     time.sleep(4)
     time.sleep(1)
-    val=s.send("2","0")
-
     s.send("14","90")
     time.sleep(1)
     s.send("15","90")
@@ -57,6 +58,7 @@ def mover(x, y, z):
     s.send("18","90")
     time.sleep(1)
     s.send("24","90")
+    time.sleep(3)
     s.send("14","180")
     time.sleep(1)
     s.send("15","150")
@@ -64,15 +66,15 @@ def mover(x, y, z):
     s.send("18","30")
     time.sleep(1)
     s.send("24","150")
-    time.sleep(2)
+    time.sleep(3)
+
+    time.sleep(1)
     s.send("14","90")
     time.sleep(1)
     s.send("15","90")
     time.sleep(1)
     s.send("18","90")
     time.sleep(1)
-    s.send("24","90")
-    time.sleep(5)
     detected=False
     detect_red_cube()
 

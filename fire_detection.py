@@ -4,8 +4,9 @@ from ultralytics import YOLO
 import threading
 import math
 import bridge
+import speak
 
-model = YOLO("red.pt")  
+model = YOLO("fire.pt")  
 
 cap = cv2.VideoCapture(1)
 
@@ -44,48 +45,12 @@ def calculate_servo_angles(x, y):
     shoulder_angle = max(0, min(180, shoulder_angle))
     elbow_angle = max(0, min(180, elbow_angle))
 
-    return base_angle-40+35, 180+10-shoulder_angle+25, elbow_angle+20
+    return base_angle-40+20, 180+10-shoulder_angle+25, elbow_angle+20
 
 def mover(x,y,z):
-    global s
-    s.send("24","150")
-    time.sleep(0.5)
-    s.send("14",str(x))
-    time.sleep(3)
-    s.send("15",str(y))
-    time.sleep(2)
-    s.send("18",str(z))
-    time.sleep(2)
-    time.sleep(2)
-    s.send("24",str("90"))
-
-    time.sleep(2)
-    s.send("14","90")
-    time.sleep(2)
-    s.send("15","90")
-    time.sleep(2)
-    s.send("18","90")
-    time.sleep(2)
-    s.send("24","90")
-    time.sleep(2)
-    s.send("14","180")
-    time.sleep(4)
-    s.send("15","150")
-    time.sleep(2)
-    s.send("18","30")
-    time.sleep(2)
-    s.send("24","150")
-    time.sleep(3)
-
-    time.sleep(2)
-    s.send("15","90")
-    time.sleep(2)
-    s.send("18","90")
-    time.sleep(2)
-    s.send("24","90")
-    time.sleep(2)
-    s.send("14","90")
-
+    global detected
+    if detected:
+        speak.speak("fire detcted")
 
 #pos of the blue basket is 14:180,15:150,18:30
 
@@ -98,8 +63,10 @@ def move_the_arm(cx,cy):
     print("moving arm to pos",x,y,z)
 
 
+detected = False  
 
 def detect_red_cube():
+    global detected
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -107,7 +74,7 @@ def detect_red_cube():
 
         results = model(frame, conf=CONFIDENCE_THRESHOLD)
 
-        detected = False  
+       
         for r in results:
             for box in r.boxes.xyxy:
                 x1, y1, x2, y2 = map(int, box)  

@@ -6,7 +6,7 @@ import math
 import bridge
 
 model = YOLO("red.pt")  
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(2)
 CONFIDENCE_THRESHOLD = 0.7
 L1 = 10  
 L2 = 10  
