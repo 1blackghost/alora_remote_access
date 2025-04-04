@@ -44,7 +44,7 @@ def calculate_servo_angles(x, y):
     shoulder_angle = max(0, min(180, shoulder_angle))
     elbow_angle = max(0, min(180, elbow_angle))
 
-    return base_angle-40+35, 180+10-shoulder_angle+25, elbow_angle+20
+    return base_angle-40+20, 180+10-shoulder_angle-40, elbow_angle
 
 def mover(x,y,z):
     global s
@@ -52,10 +52,9 @@ def mover(x,y,z):
     time.sleep(0.5)
     s.send("14",str(x))
     time.sleep(3)
-    s.send("15",str(y))
-    time.sleep(2)
     s.send("18",str(z))
-    time.sleep(2)
+    time.sleep(3)
+    s.send("15",str(y))
     time.sleep(2)
     s.send("24",str("90"))
 
@@ -70,7 +69,7 @@ def mover(x,y,z):
     time.sleep(2)
     s.send("14","180")
     time.sleep(4)
-    s.send("15","150")
+    s.send("15","120")
     time.sleep(2)
     s.send("18","30")
     time.sleep(2)
